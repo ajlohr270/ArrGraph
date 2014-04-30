@@ -1,0 +1,445 @@
+
+with(GraphTheory):
+
+with(ListTools):
+
+with(ColorTools):
+
+Help:=proc() print(`TestLines(lineset, x, debug)`, `Betterlines(m, N)`, `GraphCreator3(lineset, draw)`, `ListIsomClasses2(numlines, sizebox, samplesize)`, 
+`SearchGraphs(L, numlines, sizebox, samplesize)`): end:
+
+#outputs a list of lists. L[i][j] contains the jth intersection along the ith line, 
+#in the form of a list with -1 or 1 in the first slot indicating i is over or under
+#and which line the intersection is with in the second slot. 
+
+
+### 
+
+TestLines:=proc(lineset, x, debug) local r, t,  i,k,j, flatlines, slopelines, interlist, templist, tempentry, eq, ans, m:
+interlist:=[]:
+flatlines:=[seq([i[1],i[2], 0], i in lineset)]:
+slopelines:=lineset:
+#[flatlines, slopelines]:
+m:=nops(lineset):
+for i from 1 to m do 
+	templist:=[]:
+	for j from 1 to i-1 do 
+		eq:={seq(flatlines[i][k] = subs(x = t, flatlines[j][k]),k=1..2)}:
+
+		#print(eq):
+
+		ans:=solve(eq, {x, t}):
+
+		if ans=NULL then 
+			if debug then 
+				print(`parallel`):
+			fi:
+			return(FAIL):
+		fi:
+
+	
+		tempentry:=[subs(ans, x)]:
+
+		
+
+		tempentry:=[op(tempentry), j]:
+
+		if subs(ans, slopelines[i][3]- subs(x = t, slopelines[j][3])) = 0 then
+			if debug then 
+				print(`same z value`, lineset[i], lineset[j]):
+			fi: 
+			return(FAIL):
+		fi:
+
+		tempentry:=[op(tempentry), sign(subs(ans, slopelines[i][3]- subs(x = t, slopelines[j][3])))]:
+
+
+		templist:=[op(templist), tempentry]:
+
+	od:
+
+	for j from i+1 to m do 
+	
+		eq:={seq(flatlines[i][k] = subs(x = t, flatlines[j][k]),k=1..2)}:
+
+	
+		ans:=solve(eq, {x, t}):
+
+
+		if ans=NULL then 
+
+			if debug then 
+				print(`parallel`):
+			fi:
+			return(FAIL):
+		fi:
+
+
+		tempentry:=[subs(ans, x)]:
+		
+		
+		tempentry:=[op(tempentry), j]:
+
+		if subs(ans, slopelines[i][3]- subs(x = t, slopelines[j][3])) = 0 then
+			if debug then 
+				print(`same z value`, lineset[i], lineset[j]):
+			fi: 
+			return(FAIL):
+		fi:
+
+		tempentry:=[op(tempentry), sign(subs(ans, slopelines[i][3]- subs(x = t, slopelines[j][3])))]:
+
+		templist:=[op(templist), tempentry]:
+
+	od:
+if nops({seq(y[1], y in templist)}) <> m-1 then 
+
+	if debug then 
+				print(`triple`):
+			fi:
+	return(FAIL):
+fi:
+
+templist:=sort(templist, (x,y)->x[1]<y[1]):
+
+templist:=[seq([y[2], y[3]], y in templist)]:
+
+interlist:=[op(interlist), templist]:
+
+od:
+
+
+end:
+
+
+
+#####
+
+
+Betterlines:=proc(m, N) local r, x, t,  i,k,j, flatlines, slopelines, interlist, templist, tempentry, eq, ans, debug:
+
+debug:=false:
+
+interlist:=[]:
+
+r:=rand(-N..N):
+
+flatlines:=[seq([r() + x*r(),r() + x*r(), 0], i = 1.. m)]:
+
+slopelines:=[seq(y + [0,0,x*r()], y in flatlines)]:
+
+#[flatlines, slopelines]:
+
+for i from 1 to m do 
+
+	templist:=[]:
+
+	for j from 1 to i-1 do 
+
+		eq:={seq(flatlines[i][k] = subs(x = t, flatlines[j][k]),k=1..2)}:
+
+		#print(eq):
+
+		ans:=solve(eq, {x, t}):
+
+		if ans=NULL then 
+			if debug then 
+				print(`parallel`):
+			fi:
+			return(FAIL):
+		fi:
+
+	
+		tempentry:=[subs(ans, x)]:
+
+		
+
+		tempentry:=[op(tempentry), j]:
+
+		if subs(ans, slopelines[i][3]- subs(x = t, slopelines[j][3])) = 0 then
+			if debug then 
+				print(`same z value`, lineset[i], lineset[j]):
+			fi: 
+			return(FAIL):
+		fi:
+
+		tempentry:=[op(tempentry), sign(subs(ans, slopelines[i][3]- subs(x = t, slopelines[j][3])))]:
+
+
+		templist:=[op(templist), tempentry]:
+
+	od:
+
+	for j from i+1 to m do 
+	
+		eq:={seq(flatlines[i][k] = subs(x = t, flatlines[j][k]),k=1..2)}:
+
+	
+		ans:=solve(eq, {x, t}):
+
+
+		if ans=NULL then 
+
+			if debug then 
+				print(`parallel`):
+			fi:
+			return(FAIL):
+		fi:
+
+
+		tempentry:=[subs(ans, x)]:
+		
+		
+		tempentry:=[op(tempentry), j]:
+
+		if subs(ans, slopelines[i][3]- subs(x = t, slopelines[j][3])) = 0 then
+			if debug then 
+				print(`same z value`, lineset[i], lineset[j]):
+			fi: 
+			return(FAIL):
+		fi:
+
+		tempentry:=[op(tempentry), sign(subs(ans, slopelines[i][3]- subs(x = t, slopelines[j][3])))]:
+
+		templist:=[op(templist), tempentry]:
+
+	od:
+if nops({seq(y[1], y in templist)}) <> m-1 then 
+
+	if debug then 
+				print(`triple`):
+			fi:
+	return(FAIL):
+fi:
+
+templist:=sort(templist, (x,y)->x[1]<y[1]):
+
+templist:=[seq([y[2], y[3]], y in templist)]:
+
+interlist:=[op(interlist), templist]:
+
+od:
+
+
+end:
+
+#### 
+
+#outputs a list of lists. L[i][j] contains the jth intersection along the ith line, 
+#in the form of a list with -1 or 1 in the first slot indicating i is over or under
+#and which line the intersection is with in the second slot.
+
+#draw is a 1 or -1 variable, if set to 1 the program highlights the edges
+#so that you can see the lines.
+
+GraphCreator3:=proc(lineset, draw) local edgeset, i, j, co , line, colorlist, colortrail, G, r, n, undiredges, P:
+
+edgeset:={}:
+
+co:=0:
+
+colorlist:={}:
+
+for line in lineset do 
+
+	
+
+	i:= Search(line, lineset):
+
+	colortrail:={}:
+
+	for j from 1 to nops(line)-1 do 
+
+		
+		
+		if line[j][2] = 1 then
+			colortrail:=colortrail union {[convert(mi(co), name), 
+			convert({i, line[j][1]}, name)]}:
+
+			
+
+		else
+			colortrail:=colortrail union {[convert({i, line[j][1]},					name),convert(mi(co), name)]}:
+
+		fi:
+
+		if line[j+1][2] = 1 then
+			colortrail:=colortrail union {[convert(mi(co), name), 
+			convert({i, line[j+1][1]}, name)]}:
+
+		else
+			colortrail:=colortrail union {[convert({i, line[j+1][1]},					name),convert(mi(co), name)]}:
+
+		fi:
+
+		co:=co+1:
+
+		
+
+	od:
+
+	edgeset:=edgeset union colortrail:
+
+	colorlist:={op(colorlist), colortrail}:
+
+	
+od:
+
+G:=Digraph(edgeset):
+
+#print(colorlist):
+
+if draw=1 then 
+
+n:=nops(lineset):
+
+r:=rand(0..n):
+
+	for j in colorlist do 
+
+	HighlightEdges(G, j, COLOR(RGB, r()/n, r()/n, r()/n)):
+
+	od:
+
+fi:
+
+
+G:
+#undiredges:={seq({op(y)}, y in edgeset)}:
+	#print(undiredges):
+	#P:=Graph(undiredges):
+end:
+
+
+#####
+
+ListIsomClasses2:=proc(numlines, sizebox, samplesize) local lineset, graphlist, graph, g, addtolist, i, j:
+graphlist:=[]:
+i:=1:
+while i <= samplesize do 
+lineset:=FAIL:
+	while lineset = FAIL do 
+		lineset:=Betterlines(numlines,sizebox):
+	od:
+addtolist:=true:
+graph:=GraphCreator3(lineset, 1):
+#print(lineset):
+j:=1:
+while addtolist and j<=nops(graphlist) do 
+	addtolist:=not(IsIsomorphic(graphlist[j], graph)):
+#	print(IsIsomorphic(graphlist[j], graph)):
+	j:=j+1:
+od: 
+if addtolist then 
+	graphlist:=[op(graphlist), graph]:
+fi:
+i:=i+1:
+od:
+#print(i,j):
+graphlist:
+end:
+
+
+####  
+
+SearchGraphs:=proc(L, numlines, sizebox, samplesize) local lineset, graphlist, graph, g, addtolist, i, j, l:
+i:=1:
+while i <= samplesize do 
+lineset:=FAIL:
+	while lineset = FAIL do 
+		lineset:=Betterlines(numlines,sizebox, samplesize):
+	od:
+graph:=GraphCreator3(lineset, 1):
+#print(lineset):
+j:=1:
+for l in L do 
+	if IsIsomorphic(l, graph) then 
+		return(l):
+	fi:
+od:
+i:=i+1:
+od:
+FAIL:
+end:
+
+# lists valid arrangement graphs for a given number of lines
+ListAGraphs:= proc(int numlines)
+numvertices := numlines *(numlines +1)/2:
+
+
+end:
+
+#procedurally lists all the graphs that we think can be achieved so that we can check that they actually can
+#currently only works for 4, because don't have a way of listing all (unlabeled) arrangement graphs
+ListGraphs:=proc(int numlines) local numvertices,arrangementgraphs,crossverts,midverts,edges,v,e:
+numvertices := numlines *(numlines +1)/2:
+arrgraphs := [[{1,2,3,4,5,6},{[1,2],[2,3],[3,4],[4,5],[5,6],[6,4],[6,1],[2,4]}]]:
+overunder := [0(,0$(nops(arrangementgraphs[1])-1)]:
+graphs:=[]:
+for g in arrgraphs do
+keepgoing2:= true:
+i:=1:
+while keepgoing2 do
+graphs:=[op(graphs),[
+
+keepgoing:=true:
+while keepgoing and i<=nops(overunder) do
+if (overunder[i] = 0) then
+overunder[i] :=1:
+keepgoing := false:
+for j from 1 to i-1 do
+overunder[j]=0:
+od:
+fi:
+i:=i+1:
+if i= nops(overunder)+1 then
+keepgoing2:=false:
+od:
+od:
+od:
+graphs:
+end:
+
+ListAllGraphs:=proc(numlines,samplesize) local lineset, graphlist, graph, g, addtolist, i, j:
+graphlist:=[]:
+i:=1:
+r:=rand(0..1):
+
+while i <= samplesize do 
+lineset:=FAIL:
+	while lineset = FAIL do 
+		lineset:=Betterlines(numlines,sizebox):
+	od:
+AssignPair := {}:
+for j from 1 to nops(lineset) do
+for k from 1 to nops(lineset[j]) do
+if(not member({lineset[j][k][1],j},AssignPair)) then
+lineset[j][k][2] := (-1)^(r()):
+for l from 1 to nops(lineset[lineset[j][k][1]]) do
+if lineset[lineset[j][k][1]][l][1] = j then
+lineset[lineset[j][k][1]][l][2] = (-1)* lineset[j][k][2]:
+fi:
+od:
+AssignPair := {op(AssignPair),{j,lineset[j][k][1]}}:
+fi:
+od:
+od:
+
+addtolist:=true:
+graph:=GraphCreator3(lineset, 1):
+#print(lineset):
+j:=1:
+while addtolist and j<=nops(graphlist) do 
+	addtolist:=not(IsIsomorphic(graphlist[j], graph)):
+#	print(IsIsomorphic(graphlist[j], graph)):
+	j:=j+1:
+od: 
+if addtolist then 
+	graphlist:=[op(graphlist), graph]:
+fi:
+i:=i+1:
+od:
+#print(i,j):
+graphlist:
+end:
+
