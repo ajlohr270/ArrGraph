@@ -411,7 +411,7 @@ if(not member({lineset[j][k][1],j},AssignPair)) then
 lineset[j][k][2] := (-1)^(r()):
 for l from 1 to nops(lineset[lineset[j][k][1]]) do
 if lineset[lineset[j][k][1]][l][1] = j then
-lineset[lineset[j][k][1]][l][2] = (-1)* lineset[j][k][2]:
+lineset[lineset[j][k][1]][l][2] := (-1)* lineset[j][k][2]:
 fi:
 od:
 AssignPair := {op(AssignPair),{j,lineset[j][k][1]}}:
