@@ -394,7 +394,7 @@ od:
 graphs:
 end:
 *)
-ListAllGraphs:=proc(numlines,samplesize) local lineset, graphlist, graph, g, addtolist, i, j:
+ListAllGraphs:=proc(numlines,samplesize,sizebox) local lineset, graphlist, graph, g, addtolist, i, j:
 graphlist:=[]:
 i:=1:
 r:=rand(0..1):
