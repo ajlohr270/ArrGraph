@@ -429,7 +429,7 @@ while addtolist and j<=nops(graphlist) do
 #	print(IsIsomorphic(graphlist[j], graph)):
 	j:=j+1:
 od: 
-for j from from 1 while (j<=nops(Graphs) and addtolist) do
+for j from 1 while (j<=nops(Graphs) and addtolist) do
 	addtolist:=not(IsIsomorphic(Graphs[j], graph)):
 #	print(IsIsomorphic(graphlist[j], graph)):
 #	j:=j+1:
