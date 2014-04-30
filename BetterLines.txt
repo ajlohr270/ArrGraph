@@ -362,16 +362,10 @@ od:
 FAIL:
 end:
 
-# lists valid arrangement graphs for a given number of lines
-ListAGraphs:= proc(int numlines)
-numvertices := numlines *(numlines +1)/2:
-
-
-end:
-
+(*
 #procedurally lists all the graphs that we think can be achieved so that we can check that they actually can
 #currently only works for 4, because don't have a way of listing all (unlabeled) arrangement graphs
-ListGraphs:=proc(int numlines) local numvertices,arrangementgraphs,crossverts,midverts,edges,v,e:
+ListGraphs:=proc(numlines) local numvertices,arrangementgraphs,crossverts,midverts,edges,v,e:
 numvertices := numlines *(numlines +1)/2:
 arrgraphs := [[{1,2,3,4,5,6},{[1,2],[2,3],[3,4],[4,5],[5,6],[6,4],[6,1],[2,4]}]]:
 overunder := [0(,0$(nops(arrangementgraphs[1])-1)]:
@@ -399,7 +393,7 @@ od:
 od:
 graphs:
 end:
-
+*)
 ListAllGraphs:=proc(numlines,samplesize) local lineset, graphlist, graph, g, addtolist, i, j:
 graphlist:=[]:
 i:=1:
