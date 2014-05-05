@@ -115,6 +115,10 @@ end:
 
 #####
 
+#m is a number of lines and N the range from which random coefficients to make the #random lines will be pulled. The procedure makes lots of random lines, checks that #when they are projected to the plane they give a simple arrangement, then outputs a #list of lists L. It also fails if any of the lines in R^3 intersect. L[i][j] is a list #containing information about the intersection of line i with the j^th line along it
+# as a list with L[i][j][1]= +-1 indicating whether i is over (1) or under (-1)
+#and L[i][j][2] is the number of the line that is the j^th intersection along line i.
+
 
 Betterlines:=proc(m, N) local r, x, t,  i,k,j, flatlines, slopelines, interlist, templist, tempentry, eq, ans, debug:
 
@@ -225,9 +229,7 @@ end:
 
 #### 
 
-#outputs a list of lists. L[i][j] contains the jth intersection along the ith line, 
-#in the form of a list with -1 or 1 in the first slot indicating i is over or under
-#and which line the intersection is with in the second slot.
+
 
 #draw is a 1 or -1 variable, if set to 1 the program highlights the edges
 #so that you can see the lines.
