@@ -47,7 +47,7 @@ $\mathcal{C}(L)$ is the pair $(c, \mathcal{A(\pi L)})$, where $c: \pi L \times \
 \end{figure}
 
 
-The \emph{crossing arrangement graph} is the pair $(c_G, G(\pi L))$, where $c_G: l(G) \times l(G) \to \{-1,1\}$ where $c_G(l_1, l_2) = c(\rho(l_1), \rho(l_2))$. We will refer to $c_G$ as the crossing function for the graph. That is, the crossing map for the crossing arrangment graph is the same crossing map for the arrangement with crossings, only the domain is a set of paths in the graph rather than lines in the plane. 
+The \emph{crossing arrangement graph} is the pair $(c_G, G(\pi L))$, where $c_G: l(G) \times l(G) \to \{-1,1\}$ where $c_G(l_1, l_2) = c(\rho(l_1), \rho(l_2))$. We will refer to $c_G$ as the crossing function for the graph. That is, the crossing map for the crossing arrangement graph is the same crossing map for the arrangement with crossings, only the domain is a set of paths in the graph rather than lines in the plane. 
 We will translate the crossing arrangement graph into a directed graph $D(L)$ in the following way. The vertex set of $D(L)$ is the vertex set of $G(\pi L)$, plus one vertex $\mi(e)$ per edge $e$ of $G(\pi L)$. The graph will be bipartite and directed. The only edges will be of the form $\mi(e)v$ or $v \mi(e)$ for $e \in E(G(\pi L))$ and $v \in e$. Let $l_1$ and $l_2$ in $l(G)$ be lines such that $e$ belongs to $l_1$ and $v = l_1 \cap l_2$. 
 These lines are uniquely defined, because each point is the intersection of exactly two lines and each edge is in exactly one line. Then $\mi(e)v$ is an edge in $D(L)$ if and only if $c_G(l_1, l_2) = 1$, and $v \mi(e)$ is an edge in $D(L)$ if and only if $c_G(l_1, l_2) = -1$. See figure \ref{fig:second}. $D(L)$ has $|E(G(L))| +  |V(G(L))| = m(m-2) + { m \choose 2}$ vertices and $2m(m-2)$ edges. \\
 
@@ -76,7 +76,7 @@ The goal of this section is to show that $D(L)$ and $D(L')$ isomorphic as graphs
 
 
 We say that $\mathcal{C}(L) = (c, \mathcal{A}(L))$ and $\mathcal{C}(L')  = (c', \mathcal{A}(L'))$ are isomorphic if there is an isomorphism of arrangements $h:\mathcal{A }(\pi L) \to \mathcal{A} (\pi L')$ such that for any two lines $l_1$ and $l_2$ in $\pi L$, $c(l_1, l_2) = c'(h(l_1), h(l_2))$, and the lefthand side is defined if and only if the right hand side is. 
-Similarly, their crossing arrangment graphs are isomorphic if there exists a graph isomorphism $G( \pi L) \to G( \pi L')$ that preserves the crossing function $c_G$. This definition only makes sense if $h(l)$ is a line in $\mathcal{A}(\pi L')$ for any $l \in \pi L$, which we will show is the case. 
+Similarly, their crossing arrangement graphs are isomorphic if there exists a graph isomorphism $G( \pi L) \to G( \pi L')$ that preserves the crossing function $c_G$. This definition only makes sense if $h(l)$ is a line in $\mathcal{A}(\pi L')$ for any $l \in \pi L$, which we will show is the case. 
  \begin{lem}
 Let $L, L'$ be finite sets of lines in the plane. If $h: \mathcal{A}(L) \to \mathcal{A}(L')$ is an isomorphism of (simple) arrangements, then any line in $L$ is mapped homeomorphically by $h$ to a line of $L'$. 
  \end{lem}
