@@ -8,116 +8,15 @@ with(ColorTools):
 Help:=proc() print(`TestLines(lineset, x, debug)`, `Betterlines(m, N)`, `GraphCreator3(lineset, draw)`, `ListIsomClasses2(numlines, sizebox, samplesize)`, 
 `SearchGraphs(L, numlines, sizebox, samplesize)`): end:
 
-#outputs a list of lists. L[i][j] contains the jth intersection along the ith line, 
-#in the form of a list with -1 or 1 in the first slot indicating i is over or under
-#and which line the intersection is with in the second slot. 
-
-
-### 
-
-TestLines:=proc(lineset, x, debug) local r, t,  i,k,j, flatlines, slopelines, interlist, templist, tempentry, eq, ans, m:
-interlist:=[]:
-flatlines:=[seq([i[1],i[2], 0], i in lineset)]:
-slopelines:=lineset:
-#[flatlines, slopelines]:
-m:=nops(lineset):
-for i from 1 to m do 
-	templist:=[]:
-	for j from 1 to i-1 do 
-		eq:={seq(flatlines[i][k] = subs(x = t, flatlines[j][k]),k=1..2)}:
-
-		#print(eq):
-
-		ans:=solve(eq, {x, t}):
-
-		if ans=NULL then 
-			if debug then 
-				print(`parallel`):
-			fi:
-			return(FAIL):
-		fi:
-
-	
-		tempentry:=[subs(ans, x)]:
-
-		
-
-		tempentry:=[op(tempentry), j]:
-
-		if subs(ans, slopelines[i][3]- subs(x = t, slopelines[j][3])) = 0 then
-			if debug then 
-				print(`same z value`, lineset[i], lineset[j]):
-			fi: 
-			return(FAIL):
-		fi:
-
-		tempentry:=[op(tempentry), sign(subs(ans, slopelines[i][3]- subs(x = t, slopelines[j][3])))]:
-
-
-		templist:=[op(templist), tempentry]:
-
-	od:
-
-	for j from i+1 to m do 
-	
-		eq:={seq(flatlines[i][k] = subs(x = t, flatlines[j][k]),k=1..2)}:
-
-	
-		ans:=solve(eq, {x, t}):
-
-
-		if ans=NULL then 
-
-			if debug then 
-				print(`parallel`):
-			fi:
-			return(FAIL):
-		fi:
-
-
-		tempentry:=[subs(ans, x)]:
-		
-		
-		tempentry:=[op(tempentry), j]:
-
-		if subs(ans, slopelines[i][3]- subs(x = t, slopelines[j][3])) = 0 then
-			if debug then 
-				print(`same z value`, lineset[i], lineset[j]):
-			fi: 
-			return(FAIL):
-		fi:
-
-		tempentry:=[op(tempentry), sign(subs(ans, slopelines[i][3]- subs(x = t, slopelines[j][3])))]:
-
-		templist:=[op(templist), tempentry]:
-
-	od:
-if nops({seq(y[1], y in templist)}) <> m-1 then 
-
-	if debug then 
-				print(`triple`):
-			fi:
-	return(FAIL):
-fi:
-
-templist:=sort(templist, (x,y)->x[1]<y[1]):
-
-templist:=[seq([y[2], y[3]], y in templist)]:
-
-interlist:=[op(interlist), templist]:
-
-od:
-
-
-end:
-
-
 
 #####
 
-#m is a number of lines and N the range from which random coefficients to make the #random lines will be pulled. The procedure makes lots of random lines, checks that #when they are projected to the plane they give a simple arrangement, then outputs a #list of lists L. It also fails if any of the lines in R^3 intersect. L[i][j] is a list #containing information about the intersection of line i with the j^th line along it
-# as a list with L[i][j][1]= +-1 indicating whether i is over (1) or under (-1)
-#and L[i][j][2] is the number of the line that is the j^th intersection along line i.
+(*
+Betterlines(m, N)
+m is a number of lines and N the range from which random coefficients to make the random lines will be pulled. The procedure makes lots of random lines, checks that when they are projected to the plane they give a simple arrangement, then outputs a list of lists L. It also fails if any of the lines in R^3 intersect. L[i][j] is a list containing information about the intersection of line i with the j^th line along it
+ as a list with L[i][j][1]= +-1 indicating whether i is over (1) or under (-1)
+and L[i][j][2] is the number of the line that is the j^th intersection along line i.
+*)
 
 
 Betterlines:=proc(m, N) local r, x, t,  i,k,j, flatlines, slopelines, interlist, templist, tempentry, eq, ans, debug:
@@ -227,12 +126,123 @@ od:
 
 end:
 
+
+(*TestLines(lineset, x, debug)
+lineset is a set of lines parametrized by x. It checks that when they are projected to the plane they give a simple arrangement, then outputs a list of lists L. It also fails if any of the lines intersect in R^3. L[i][j] is a list containing information about the intersection of line i with the j^th line along it
+ as a list with L[i][j][1]= +-1 indicating whether i is over (1) or under (-1)
+and L[i][j][2] is the number of the line that is the j^th intersection along line i.
+*)
+
+
+### 
+
+TestLines:=proc(lineset, x, debug) local r, t,  i,k,j, flatlines, slopelines, interlist, templist, tempentry, eq, ans, m:
+interlist:=[]:
+flatlines:=[seq([i[1],i[2], 0], i in lineset)]:
+slopelines:=lineset:
+#[flatlines, slopelines]:
+m:=nops(lineset):
+for i from 1 to m do 
+	templist:=[]:
+	for j from 1 to i-1 do 
+		eq:={seq(flatlines[i][k] = subs(x = t, flatlines[j][k]),k=1..2)}:
+
+		#print(eq):
+
+		ans:=solve(eq, {x, t}):
+
+		if ans=NULL then 
+			if debug then 
+				print(`parallel`):
+			fi:
+			return(FAIL):
+		fi:
+
+	
+		tempentry:=[subs(ans, x)]:
+
+		
+
+		tempentry:=[op(tempentry), j]:
+
+		if subs(ans, slopelines[i][3]- subs(x = t, slopelines[j][3])) = 0 then
+			if debug then 
+				print(`same z value`, lineset[i], lineset[j]):
+			fi: 
+			return(FAIL):
+		fi:
+
+		tempentry:=[op(tempentry), sign(subs(ans, slopelines[i][3]- subs(x = t, slopelines[j][3])))]:
+
+
+		templist:=[op(templist), tempentry]:
+
+	od:
+
+	for j from i+1 to m do 
+	
+		eq:={seq(flatlines[i][k] = subs(x = t, flatlines[j][k]),k=1..2)}:
+
+	
+		ans:=solve(eq, {x, t}):
+
+
+		if ans=NULL then 
+
+			if debug then 
+				print(`parallel`):
+			fi:
+			return(FAIL):
+		fi:
+
+
+		tempentry:=[subs(ans, x)]:
+		
+		
+		tempentry:=[op(tempentry), j]:
+
+		if subs(ans, slopelines[i][3]- subs(x = t, slopelines[j][3])) = 0 then
+			if debug then 
+				print(`same z value`, lineset[i], lineset[j]):
+			fi: 
+			return(FAIL):
+		fi:
+
+		tempentry:=[op(tempentry), sign(subs(ans, slopelines[i][3]- subs(x = t, slopelines[j][3])))]:
+
+		templist:=[op(templist), tempentry]:
+
+	od:
+if nops({seq(y[1], y in templist)}) <> m-1 then 
+
+	if debug then 
+				print(`triple`):
+			fi:
+	return(FAIL):
+fi:
+
+templist:=sort(templist, (x,y)->x[1]<y[1]):
+
+templist:=[seq([y[2], y[3]], y in templist)]:
+
+interlist:=[op(interlist), templist]:
+
+od:
+
+
+end:
+
+
+
+
 #### 
 
 
 
-#draw is a 1 or -1 variable, if set to 1 the program highlights the edges
-#so that you can see the lines.
+(*
+GraphCreator3(lineset, draw)
+lineset is a list of lists in the form of the output of BetterLines, and draw is a \pm 1 variable that indicates  whether the graph will be drawn afterwards. The output is the directed graph D(L) as described in arrcross.pdf in the maple directed graph format.
+*)
 
 GraphCreator3:=proc(lineset, draw) local edgeset, i, j, co , line, colorlist, colortrail, G, r, n, undiredges, P:
 
@@ -312,8 +322,13 @@ G:
 	#P:=Graph(undiredges):
 end:
 
-
+#
 #####
+(*
+ListIsomClasses2(numlines, sizebox, samplesize)
+numlines is the number of lines (m from before), sizebox is the size of the coefficients in the lines, and samplesize is how many random samples to generate. 
+The output is a list of all nonisomorphic directed graphs created by GraphCreator3 on a random sample of samplesize number of lines.
+*)
 
 ListIsomClasses2:=proc(numlines, sizebox, samplesize) local lineset, graphlist, graph, g, addtolist, i, j:
 graphlist:=[]:
@@ -344,6 +359,11 @@ end:
 
 ####  
 
+(*
+SearchGraphs(L, numlines, sizebox, samplesize)
+L is a list of graphs, and the other variables are as before. Outputs the first graph in L that we find in the output of ListIsomClasses2(numlines, sizebox, samplesize).
+*)
+
 SearchGraphs:=proc(L, numlines, sizebox, samplesize) local lineset, graphlist, graph, g, addtolist, i, j, l:
 i:=1:
 while i <= samplesize do 
@@ -365,7 +385,8 @@ FAIL:
 end:
 
 (*
-#procedurally lists all the graphs that we think can be achieved so that we can check that they actually can
+ListGraphs(numlines)
+numlines is a number of lines. procedurally lists all the graphs that we think can be achieved so that we can check that they actually can
 #currently only works for 4, because don't have a way of listing all (unlabeled) arrangement graphs
 ListGraphs:=proc(numlines) local numvertices,arrangementgraphs,crossverts,midverts,edges,v,e:
 numvertices := numlines *(numlines +1)/2:
@@ -396,7 +417,8 @@ od:
 graphs:
 end:
 *)
-ListAllGraphs:=proc(numlines,samplesize,sizebox,randsample) local lineset, graphlist, graph, g, addtolist, i, j,k,l,timeout:
+
+ListAllGraphs:=proc(numlines,samplesize,sizebox,randsample) local lineset, graphlist, graph, g, addtolist, i, j,k,l,timeout, r, Graphs, AssignPair:
 graphlist:=[]:
 i:=1:
 r:=rand(0..1):
