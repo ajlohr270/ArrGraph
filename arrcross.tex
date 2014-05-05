@@ -8,12 +8,14 @@
 \usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{epstopdf}
+%\usepackage{minipage}
 
 \newcommand{\mi}{\operatorname{mi}}
 
-\input{/Users/Cole/Latex/LatexDefs}
+\input{./LatexDefs_2}
 
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+%\DeclareGraphicsExtensions{.jpeg}
 
 \title{Arrangements with Crossings}
 \author{Cole Franks, Andrew Lohr}
@@ -30,18 +32,34 @@ A finite set of lines $L$ in $\R^2$ partitions the plane into $d$-faces where $d
 
 An \emph{arrangement graph} is a graph $G(L)$ defined from $\mathcal{A}(L)$ with vertex set the ${m \choose 2}$ intersections in $\mathcal{A}(L)$ and $v$ and $w$ adjacent in $G(L)$ if and only if $v$ and $w$ are the endpoints of a 1-face, i.e. segment, in $\mathcal{A}(L)$. That is, $v$ and $w$ are on a common line $l$ of $L$, and no other line of $L$ intersects $l$ between $v$ and $w$. Each line intersects $m-1$ other lines, so each line contributes $m-2$ edges to $G(L)$; hence there are $m(m-2)$ total edges in $G(L)$. Note that $G(L)$ is planar, and that the degree of any vertex is either two, three, or four. Lines in the arrangement graph are the paths whose edges correspond to segments of a common line in $\mathcal{A}(L)$. The set of lines in the arrangement graph will be denoted $l(G)$, and for any line $l \in l(G)$, its corresponding line in $\mathcal{A}(L)$ will be denoted $\rho(l)$. Note that arrangement graphs ignore the half-infinite segments.\\
 
-We will study sets of nonintersecting lines in $\R^3$ whose projections to a plane form simple arrangements. We will write elements of $\R^3$ in the standard basis as triples $\vec{r} = (x, y, z)$, and we will assume that we are projecting downward to the $xy$-plane. Let $L$ be a set of nonintersecting lines in $\R^3$. If $l$ is a line in $\R^3$ parameterized by $l(t) = (x(t), y(t), z(t))$, then let $\pi(l)$ denote the line $(x(t), y(t), 0)$ in the $xy$-plane. Suppose additionally that the set $\pi L = \{\pi(l): l \in L\}$ has $\mathcal{A}(L)$ simple. We form a new structure, which we call an \emph{arrangment with crossings}, denoted by $\mathcal{C}(L)$, as follows. $\mathcal{C}(L)$ is the pair $(c, \mathcal{A(\pi L)})$, where $c: \pi L \times \pi L \to \{-1, 1\}$ is the \emph{crossing function} defined by $c(\pi(l_1) \pi(l_2)) = 1$ for distinct lines $l_1$ and $l_2$ if and only if $l_1$ passes over $l_2$ in $\R^3$. More precisely, if $\pi(l_1)$ intersects $\pi(l_2)$ at a point $p$, which it must, because $\mathcal{A}(\pi L)$ is simple, then $c(\pi(l_1), \pi(l_2)) = 1$ if and only if the $z$-coordinate of the intersection of $l_1$ with the vertical line passing through $p$ is larger than the $z$-coordinate of the intersection of $l_2$ with said line. If $l_1 = l_2$, then $c(\pi(l_1), \pi(l_2))$ is not defined. In any other case, $c(\pi(l_1), \pi(l_2)) = -1$. Note that $c$ is antisymmetric in its arguments. $c$ is called the crossing map, and is only a formal way of describing something familiar: $(c, \mathcal{A}(\pi L))$ is really just a drawing in the plane of lines in $\R^3$ viewed from above, where the crossings are marked as in a knot diagram FIGURE 2.a. \\
+We will study sets of nonintersecting lines in $\R^3$ whose projections to a plane form simple arrangements. We will write elements of $\R^3$ in the standard basis as triples $\vec{r} = (x, y, z)$, and we will assume that we are projecting downward to the $xy$-plane. Let $L$ be a set of nonintersecting lines in $\R^3$. If $l$ is a line in $\R^3$ parameterized by $l(t) = (x(t), y(t), z(t))$, then let $\pi(l)$ denote the line $(x(t), y(t), 0)$ in the $xy$-plane. Suppose additionally that the set $\pi L = \{\pi(l): l \in L\}$ has $\mathcal{A}(L)$ simple. We form a new structure, which we call an \emph{arrangment with crossings}, denoted by $\mathcal{C}(L)$, as follows. $\mathcal{C}(L)$ is the pair $(c, \mathcal{A(\pi L)})$, where $c: \pi L \times \pi L \to \{-1, 1\}$ is the \emph{crossing function} defined by $c(\pi(l_1) \pi(l_2)) = 1$ for distinct lines $l_1$ and $l_2$ if and only if $l_1$ passes over $l_2$ in $\R^3$. More precisely, if $\pi(l_1)$ intersects $\pi(l_2)$ at a point $p$, which it must, because $\mathcal{A}(\pi L)$ is simple, then $c(\pi(l_1), \pi(l_2)) = 1$ if and only if the $z$-coordinate of the intersection of $l_1$ with the vertical line passing through $p$ is larger than the $z$-coordinate of the intersection of $l_2$ with said line. If $l_1 = l_2$, then $c(\pi(l_1), \pi(l_2))$ is not defined. In any other case, $c(\pi(l_1), \pi(l_2)) = -1$. Note that $c$ is antisymmetric in its arguments. $c$ is called the crossing map, and is only a formal way of describing something familiar: $(c, \mathcal{A}(\pi L))$ is really just a drawing in the plane of lines in $\R^3$ viewed from above, where the crossings are marked as in a knot diagram(see figure \ref{fig:first}). \\
 
-The \emph{crossing arrangement graph} is the pair $(c_G, G(\pi L))$, where $c_G: l(G) \times l(G) \to \{-1,1\}$ where $c_G(l_1, l_2) = c(\rho(l_1), \rho(l_2))$. We will refer to $c_G$ as the crossing function for the graph. That is, the crossing map for the crossing arrangment graph is the same crossing map for the arrangement with crossings, only the domain is a set of paths in the graph rather than lines in the plane. We will translate the crossing arrangement graph into a directed graph $D(L)$ in the following way. The vertex set of $D(L)$ is the vertex set of $G(\pi L)$, plus one vertex $\mi(e)$ per edge $e$ of $G(\pi L)$. The graph will be bipartite and directed. The only edges will be of the form $\mi(e)v$ or $v \mi(e)$ for $e \in E(G(\pi L))$ and $v \in e$. Let $l_1$ and $l_2$ in $l(G)$ be lines such that $e$ belongs to $l_1$ and $v = l_1 \cap l_2$. These lines are uniquely defined, because each point is the intersection of exactly two lines and each edge is in exactly one line. Then $\mi(e)v$ is an edge in $D(L)$ if and only if $c_G(l_1, l_2) = 1$, and $v \mi(e)$ is an edge in $D(L)$ if and only if $c_G(l_1, l_2) = -1$. See FIGURE. $D(L)$ has $|E(G(L))| +  |V(G(L))| = m(m-2) + { m \choose 2}$ vertices and $2m(m-2)$ edges. \\
+\begin{figure}
+\begin{minipage}{0.5\linewidth}
+\centering	
+\includegraphics[width=0.4\textwidth]{Arrcross}
+\caption{Knot diagram interpretation}
+\label{fig:first}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\centering
+\includegraphics[width=0.4\textwidth]{Digraph}
+\caption{Crossing arrangement graph}
+\label{fig:second}
+\end{minipage}
+\end{figure}
+
+
+The \emph{crossing arrangement graph} is the pair $(c_G, G(\pi L))$, where $c_G: l(G) \times l(G) \to \{-1,1\}$ where $c_G(l_1, l_2) = c(\rho(l_1), \rho(l_2))$. We will refer to $c_G$ as the crossing function for the graph. That is, the crossing map for the crossing arrangment graph is the same crossing map for the arrangement with crossings, only the domain is a set of paths in the graph rather than lines in the plane. We will translate the crossing arrangement graph into a directed graph $D(L)$ in the following way. The vertex set of $D(L)$ is the vertex set of $G(\pi L)$, plus one vertex $\mi(e)$ per edge $e$ of $G(\pi L)$. The graph will be bipartite and directed. The only edges will be of the form $\mi(e)v$ or $v \mi(e)$ for $e \in E(G(\pi L))$ and $v \in e$. Let $l_1$ and $l_2$ in $l(G)$ be lines such that $e$ belongs to $l_1$ and $v = l_1 \cap l_2$. These lines are uniquely defined, because each point is the intersection of exactly two lines and each edge is in exactly one line. Then $\mi(e)v$ is an edge in $D(L)$ if and only if $c_G(l_1, l_2) = 1$, and $v \mi(e)$ is an edge in $D(L)$ if and only if $c_G(l_1, l_2) = -1$. See figure \ref{fig:second}. $D(L)$ has $|E(G(L))| +  |V(G(L))| = m(m-2) + { m \choose 2}$ vertices and $2m(m-2)$ edges. \\
+
+
 
 Throughout this paper, if $G$ is a graph, $V(G)$ is the vertex set of $G$ and $E(G)$ is the edge set.
 
 \section{Geometric to Combinatorial}
 The goal of this section is to show that $D(L)$ and $D(L')$ isomorphic as graphs if and only if $\mathcal{C}(L) = (c, \mathcal{A}(L))$ and $\mathcal{C}(L') = (c', \mathcal{A}(L'))$ are isomorphic in a certain sense.\\
 
- First, we say that two arrangements $\mathcal{A }(L)$ and $\mathcal{A} (L')$ are isomorphic if there is a homeomorphism $h$ of $\R^2$ carrying $\mathcal{A }(L)$ to $\mathcal{A} (L')$ in the sense that for each $d$-face $X$ of $\mathcal{A}(L)$, we have $h|_X: X \to Y$ is a homeomorphism of $X$ and $Y$ where $Y$ is a $d$-face of $\mathcal{A}(L')$. This means that points map to points, segments map to segments homeomorphically, and cells map to cells homeomorphically. In this case we refer to $h$ as an isomorphism of arrangements, and write $\mathcal{A }(L) \cong \mathcal{A} (L')$. \\
-
-
+First, we say that two arrangements $\mathcal{A }(L)$ and $\mathcal{A} (L')$ are isomorphic if there is a homeomorphism $h$ of $\R^2$ carrying $\mathcal{A }(L)$ to $\mathcal{A} (L')$ in the sense that for each $d$-face $X$ of $\mathcal{A}(L)$, we have $h|_X: X \to Y$ is a homeomorphism of $X$ and $Y$ where $Y$ is a $d$-face of $\mathcal{A}(L')$. This means that points map to points, segments map to segments homeomorphically, and cells map to cells homeomorphically. In this case we refer to $h$ as an isomorphism of arrangements, and write $\mathcal{A }(L) \cong \mathcal{A} (L')$. \\
 
 
 We say that $\mathcal{C}(L) = (c, \mathcal{A}(L))$ and $\mathcal{C}(L')  = (c', \mathcal{A}(L'))$ are isomorphic if there is an isomorphism of arrangements $h:\mathcal{A }(\pi L) \to \mathcal{A} (\pi L')$ such that for any two lines $l_1$ and $l_2$ in $\pi L$, $c(l_1, l_2) = c'(h(l_1), h(l_2))$, and the lefthand side is defined if and only if the right hand side is. Similarly, their crossing arrangment graphs are isomorphic if there exists a graph isomorphism $G( \pi L) \to G( \pi L')$ that preserves the crossing function $c_G$. This definition only makes sense if $h(l)$ is a line in $\mathcal{A}(\pi L')$ for any $l \in \pi L$, which we will show is the case. 
