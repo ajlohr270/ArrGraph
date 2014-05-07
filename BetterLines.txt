@@ -418,6 +418,13 @@ graphs:
 end:
 *)
 
+(*
+ListAllGraphs(numlines,samplesize,sizebox,randsample) first generates samplesize many arrangement graphs on numlines many lines.
+ It then randomly relables the crossing information at every crossing. Then, it rejects any graphs that appeared as valid graphs generated before.
+ it attempts to return randsample many such graphs, and eventually times out if it fails, and returns fewer.
+ its purpose is to try and find labellings of arrangement graphs.
+*)
+
 ListAllGraphs:=proc(numlines,samplesize,sizebox,randsample) local lineset, graphlist, graph, g, addtolist, i, j,k,l,timeout, r, Graphs, AssignPair:
 graphlist:=[]:
 i:=1:
